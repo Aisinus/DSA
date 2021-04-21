@@ -9,5 +9,5 @@ public interface Graph<T,T2> {
     public Collection<Edge<T,T2>> edgesTo(Vertex<T> vertex);
     public Vertex<T> findVertex(T value);
     public Edge<T,T2> findEdge(T from_value, T to_value);
-    public boolean hasEdge(Vertex<T> V, Vertex<T> u);
+    public boolean hasEdge(Vertex<T> v, Vertex<T> u);
 }

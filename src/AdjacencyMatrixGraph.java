@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
+
 public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
     private final ArrayList<Vertex<T>> allVertexes = new ArrayList<>();
     private final HashMap<Vertex<T>, HashMap<Vertex<T>, Edge<T,T2>>> AdjacencyMatrix = new HashMap<>();
@@ -47,26 +49,42 @@ public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
 
     @Override
     public Collection<Edge<T, T2>> edgesFrom(Vertex<T> vertex) {
-        return null;
+      if(AdjacencyMatrix.containsKey(vertex)){
+          return AdjacencyMatrix.get(vertex).values();
+      }
+      return new ArrayList<>();
     }
 
     @Override
     public Collection<Edge<T, T2>> edgesTo(Vertex<T> vertex) {
-        return null;
+        if(AdjacencyMatrix.containsKey(vertex)){
+            return AdjacencyMatrix.get(vertex).values();
+        }
+        return new ArrayList<>();
     }
 
     @Override
     public Vertex<T> findVertex(T value) {
+        for(Vertex<T> SearchVertex:allVertexes){
+            if(SearchVertex.getValue().equals(value)){
+                return SearchVertex;
+            }
+        }
         return null;
     }
 
     @Override
     public Edge<T, T2> findEdge(T from_value, T to_value) {
+        for(Vertex<T> NeedVertex:allVertexes){
+            if(NeedVertex.getValue().equals(from_value)){
+                return edgesFrom(NeedVertex).stream().filter((g) -> g.getTo().getValue().equals(to_value)).findFirst().orElse(null);
+            }
+        }
         return null;
     }
 
     @Override
-    public boolean hasEdge(Vertex<T> V, Vertex<T> u) {
-        return false;
+    public boolean hasEdge(Vertex<T> v, Vertex<T> u) {
+        return AdjacencyMatrix.containsKey(v)&&AdjacencyMatrix.get(v).containsKey(u);
     }
 }
