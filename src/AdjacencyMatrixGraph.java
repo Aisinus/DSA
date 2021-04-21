@@ -22,17 +22,27 @@ public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
             }
             AdjacencyMatrix.remove(vertex);
         }
-        return();
+        return;
     }
 
     @Override
     public Edge<T, T2> addEdge(Vertex<T> from, Vertex<T> to, T2 weight) {
-        return null;
+        Edge<T,T2> newEdge = new Edge<>(from,to,weight);
+        if(!AdjacencyMatrix.containsKey(from)){
+            AdjacencyMatrix.put(from, new HashMap<>());
+        }
+        AdjacencyMatrix.get(from).put(to, newEdge);
+        return newEdge;
     }
 
     @Override
     public void removeEdge(Edge<T, T2> edge) {
-
+    Vertex<T> from = edge.getFrom();
+    Vertex<T> to = edge.getTo();
+    AdjacencyMatrix.get(from).remove(to);
+        if(AdjacencyMatrix.get(from).isEmpty()){
+            AdjacencyMatrix.remove(from);
+        }
     }
 
     @Override
