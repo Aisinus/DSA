@@ -1,16 +1,39 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Scanner;
 public class main {
-    public static void main(String args[]){
 
-        AdjacencyMatrixGraph kek = new AdjacencyMatrixGraph();
-        kek.addVertex("A");
-        kek.addVertex("B");
-        kek.addEdge(kek.findVertex("A"),kek.findVertex("B"),3);
-       System.out.println( kek.hasEdge(kek.findVertex("A"),kek.findVertex("B")));
-        System.out.println(kek.hasEdge(kek.findVertex("B"),kek.findVertex("A")));
-        kek.removeEdge((kek.findEdge("A","B")));
-        System.out.println(kek.hasEdge(kek.findVertex("A"), kek.findVertex("B")));
+
+    public static void main(String args[]){
+        Scanner in = new Scanner(System.in);
+        AdjacencyMatrixGraph matrixGraph= new AdjacencyMatrixGraph();
+        while(in.hasNext()){
+            String line=in.nextLine();
+            String[] word = line.split(" ");
+                switch (word[0]){
+                    case "ADD_VERTEX":
+                        matrixGraph.addVertex(word[1]);
+                        break;
+                    case "REMOVE_VERTEX":
+                        matrixGraph.removeVertex(matrixGraph.findVertex(word[1]));
+                        break;
+                    case "ADD_EDGE":
+                        matrixGraph.addEdge(matrixGraph.findVertex(word[1]), matrixGraph.findVertex(word[2]), word[3]);
+                        break;
+                    case "REMOVE_EDGE":
+                        matrixGraph.removeEdge(matrixGraph.findEdge(word[1],word[2]));
+                        break;
+                    case "HAS_EDGE":
+                        if(matrixGraph.hasEdge(matrixGraph.findVertex(word[1]),matrixGraph.findVertex(word[2]))){
+                            System.out.println("TRUE");
+                        } else {
+                            System.out.println("FALSE");
+                        }
+                        break;
+
+                }
+
+        }
     }
 }
