@@ -1,7 +1,5 @@
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
@@ -86,5 +84,21 @@ public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
     @Override
     public boolean hasEdge(Vertex<T> v, Vertex<T> u) {
         return AdjacencyMatrix.containsKey(v)&&AdjacencyMatrix.get(v).containsKey(u);
+    }
+
+    @Override
+    public List<Edge<T, T2>> isAcyclic() {
+        if(allVertexes.isEmpty()){
+            return null;
+        }
+        List<Edge<T,T2>> ans;
+        HashSet<Vertex<T>> way = new HashSet<>();
+        while(way.size()<allVertexes.size()){
+            Stack<Vertex<T>> stack = new Stack<>();
+            Vertex<T> first = allVertexes.stream().filter((vertex) -> !way.contains(vertex)).findFirst().orElse(null);
+            stack.add(first);
+            ans =
+        }
+        return ans;
     }
 }
