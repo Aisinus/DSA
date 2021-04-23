@@ -1,4 +1,4 @@
-import java.util.Collection;
+import java.util.*;
 
 public interface Graph<T,T2> {
     public Vertex<T> addVertex(T value);
@@ -10,5 +10,6 @@ public interface Graph<T,T2> {
     public Vertex<T> findVertex(T value);
     public Edge<T,T2> findEdge(T from_value, T to_value);
     public boolean hasEdge(Vertex<T> v, Vertex<T> u);
- //   public List<Edge<T,T2>> isAcyclic();
+    public List<Vertex<T>> isAcyclic();
+
 }

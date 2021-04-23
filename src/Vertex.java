@@ -6,4 +6,11 @@ public class Vertex<T> {
     public T getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "value=" + value +
+                '}';
+    }
 }

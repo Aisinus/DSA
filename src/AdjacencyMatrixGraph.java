@@ -1,7 +1,5 @@
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
@@ -86,5 +84,36 @@ public class AdjacencyMatrixGraph<T,T2> implements Graph<T, T2> {
     @Override
     public boolean hasEdge(Vertex<T> v, Vertex<T> u) {
         return AdjacencyMatrix.containsKey(v)&&AdjacencyMatrix.get(v).containsKey(u);
+    }
+
+    @Override
+    public List<Vertex<T>> isAcyclic() {
+        Stack<Vertex<T>> way=new Stack<>();
+        Vertex<T> current = allVertexes.get(0);
+        way.add(current);
+        return AcyclicCheck(current,way, new ArrayList<>());
+    }
+
+    public List<Vertex<T>> AcyclicCheck(Vertex<T> current,Stack<Vertex<T>> way, List<Vertex<T>> visited){
+        visited.add(current);
+        Collection<Edge<T,T2>> possibleEdges = edgesFrom(current);
+        //Cycle check
+        for(Edge<T,T2> psEdge : possibleEdges){
+            if(way.contains(psEdge.getTo())){
+                return way.stream()
+                        .dropWhile((v) -> v != psEdge.getTo())
+                        .collect(Collectors.toList());
+            }
+        }
+        //Search way
+        for(Edge<T,T2> psEdge:possibleEdges){
+            Vertex<T> nextVertex=psEdge.getTo();
+            if (visited.contains(nextVertex)) continue;
+            way.add(nextVertex);
+           List<Vertex<T>> result =AcyclicCheck(nextVertex, way,visited);
+           if(result==null) continue;
+           return result;
+        }
+        return null;
     }
 }
